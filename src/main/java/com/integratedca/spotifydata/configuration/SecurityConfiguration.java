@@ -1,44 +1,45 @@
 package com.integratedca.spotifydata.configuration;
 
+import com.integratedca.spotifydata.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfiguration {
+
+    private final CustomUserDetailsService customUserDetailsService;
+
+    public SecurityConfiguration(CustomUserDetailsService customUserDetailsService) {
+        this.customUserDetailsService = customUserDetailsService;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeRequests(authorizeRequests ->
+            .authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
                     .requestMatchers("/login").permitAll()
                     .anyRequest().authenticated()
             )
             .formLogin(formLogin ->
-                formLogin.loginPage("/login").permitAll()
-                .defaultSuccessUrl("/home", true) // home page
+                formLogin
+                    .loginPage("/login").permitAll()
+                    .defaultSuccessUrl("/home", true)  // registered user -> home
             )
             .logout(logout ->
-                logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll()
+                logout.permitAll()
             );
-
         return http.build();
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails user = User.builder()
-                .username("CCT1234")
-                .password("{noop}54321")
-                .roles("USER")
-                .build();
-        return new InMemoryUserDetailsManager(user);
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
