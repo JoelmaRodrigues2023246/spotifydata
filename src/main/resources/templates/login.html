@@ -17,6 +17,7 @@
             <button type="submit">Login</button>
         </div>
     </form>
+    <div th:if="${param.success}" th:text="'User registered successfully'" style="color: green;"></div>
     <div>
         <a th:href="@{/register}">Register</a>
     </div>

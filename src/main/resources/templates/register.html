@@ -23,10 +23,8 @@
         <div>
             <button type="submit">Register</button>
         </div>
-        <div th:if="${errorMessage}" style="color: red;">
-            <p th:text="${errorMessage}"></p>
-        </div>
     </form>
+    <div th:if="${error}" th:text="${error}" style="color: red;"></div>
     <div>
         <a th:href="@{/login}">Already have an account? Login here</a>
     </div>

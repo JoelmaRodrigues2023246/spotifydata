@@ -20,7 +20,11 @@ public class UserService {
 
     public void save(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(Collections.singletonList("ROLE_USER")); // sets role
+        user.setRoles(Collections.singletonList("ROLE_USER"));
         userRepository.save(user);
+    }
+
+    public boolean usernameExists(String username) {
+        return userRepository.findByUsername(username) != null; //avoid duplicated user name
     }
 }

@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class UserController {
@@ -25,15 +24,13 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute("user") User user, 
-                               @ModelAttribute("confirmPassword") String confirmPassword, 
-                               RedirectAttributes redirectAttributes) {
-        if (!user.getPassword().equals(confirmPassword)) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Passwords do not match!");
-            return "redirect:/register";
+    public String registerUser(@ModelAttribute("user") User user, Model model) {
+        if (userService.usernameExists(user.getUsername())) {
+            model.addAttribute("error", "Username already exists");
+            return "register";
         }
-
         userService.save(user);
-        return "redirect:/login";
+        model.addAttribute("success", "User registered successfully");
+        return "redirect:/login?success";
     }
 }
