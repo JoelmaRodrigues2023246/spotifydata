@@ -20,12 +20,22 @@ class SpotifyDataApplicationTests {
     @Test
     @WithMockUser(username = "CCT1234", password = "54321")
     void contextLoads() {
+        // Application context loads successfully
     }
 
     @Test
     @WithMockUser(username = "CCT1234", password = "54321")
     void testHomePage() throws Exception {
         mockMvc.perform(get("/"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk()); // Verifies: home page is accessible
+    }
+
+    @Test
+    @WithMockUser(username = "CCT1234", password = "54321")
+    void testViewTop10ArtistsPage() throws Exception {
+        mockMvc.perform(get("/view_top_10_artists")
+                .param("region", "Ireland")
+                .param("year", "2021"))
+                .andExpect(status().isOk()); // Verifies: Top 10 Artists page is accessible with parameters
     }
 }

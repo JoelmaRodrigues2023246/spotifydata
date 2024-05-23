@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Top 10 Artists</title>
+</head>
+<body>
+    <h1>Top 10 Artists</h1>
+    <form th:action="@{/view_top_10_artists}" method="get">
+        <label for="region">Region:</label>
+        <input type="text" id="region" name="region" th:value="${defaultRegion}" required>
+        <label for="year">Year:</label>
+        <input type="number" id="year" name="year" th:value="${defaultYear}" required>
+        <button type="submit">Search</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Artist</th>
+                <th>Total Streams</th>
+                <th>Region</th>
+                <th>Year</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="artist : ${top10Artists}">
+                <td th:text="${artist.rank}">1</td>
+                <td th:text="${artist.artist}">Artist Name</td>
+                <td th:text="${artist.total_streams}">0</td>
+                <td th:text="${artist.region}">Region</td>
+                <td th:text="${artist.year}">2021</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
