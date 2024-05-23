@@ -4,6 +4,7 @@ import com.integratedca.spotifydata.model.User;
 import com.integratedca.spotifydata.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +25,14 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute("user") User user, Model model) {
+    public String registerUser(@ModelAttribute("user") @jakarta.validation.Valid User user, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "register";
+        }
+        if (!user.getPassword().equals(user.getConfirmPassword())) {
+            model.addAttribute("error", "Passwords do not match");
+            return "register";
+        }
         if (userService.usernameExists(user.getUsername())) {
             model.addAttribute("error", "Username already exists");
             return "register";

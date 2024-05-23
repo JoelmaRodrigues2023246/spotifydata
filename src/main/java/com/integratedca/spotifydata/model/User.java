@@ -3,6 +3,9 @@ package com.integratedca.spotifydata.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import java.util.List;
 
 @Document(collection = "users")
@@ -10,14 +13,20 @@ public class User {
 
     @Id
     private String id;
+
+    @NotEmpty(message = "Username is required")
     private String username;
+
+    @NotEmpty(message = "Password is required")
+    @Size(min = 5, message = "Password must be at least 5 characters long")
     private String password;
-    
+
     @Transient
+    @NotEmpty(message = "Confirm Password is required")
     private String confirmPassword;
-    
+
     private List<String> roles;
-    
+
     public User() {
     }
 
