@@ -3,6 +3,7 @@ package com.integratedca.spotifydata.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
+
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
@@ -25,7 +26,7 @@ public class User {
     @Transient
     @NotEmpty(message = "Confirm Password is required")
     private String confirmPassword;
-
+    
     @Transient
     private String oldPassword;
 
@@ -39,10 +40,10 @@ public class User {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.roles = roles != null ? roles : new ArrayList<>();  // Roles is never null
+        this.roles = roles != null ? roles : new ArrayList<>();
     }
 
-    // Getters e Setters
+    // Getters and Setters
     public String getId() {
         return id;
     }

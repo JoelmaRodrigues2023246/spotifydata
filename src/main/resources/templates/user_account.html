@@ -13,46 +13,37 @@
 </head>
 <body>
     <h1>User Account</h1>
-    <p>Welcome, <span th:text="${username}">User</span>!</p>
+    <p>Hi, <span th:text="${username}">User</span>!</p>
     <form th:action="@{/user_account/update_password}" th:object="${user}" method="post">
+        <input type="hidden" th:field="*{username}" />
         <div>
             <label for="oldPassword">Old Password:</label>
             <input type="password" id="oldPassword" th:field="*{oldPassword}" />
+            <div class="error-message" th:if="${#fields.hasErrors('oldPassword')}" th:errors="*{oldPassword}"></div>
         </div>
         <div>
             <label for="newPassword">New Password:</label>
             <input type="password" id="newPassword" th:field="*{password}" />
+            <div class="error-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
         </div>
         <div>
             <label for="confirmPassword">Confirm New Password:</label>
             <input type="password" id="confirmPassword" th:field="*{confirmPassword}" />
+            <div class="error-message" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></div>
         </div>
         <div>
             <button type="submit">Update Password</button>
         </div>
-        <div class="error-message" th:if="${error}">
-            <p th:text="${error}"></p>
-        </div>
-        <div class="success-message" th:if="${success}">
-            <p th:text="${success}"></p>
-        </div>
+        <div class="error-message" th:if="${error}" th:text="${error}"></div>
+        <div class="success-message" th:if="${success}" th:text="${success}"></div>
     </form>
     <form th:action="@{/user_account/delete}" method="post">
         <div>
             <button type="submit">Delete Account</button>
         </div>
     </form>
-    <form th:action="@{/logout}" method="post">
+    <form th:action="@{/perform_logout}" method="post">
         <button type="submit">Logout</button>
     </form>
-    <script>
-        // Temporary success message
-        setTimeout(function() {
-            var successMessage = document.querySelector('.success-message');
-            if (successMessage) {
-                successMessage.style.display = 'none';
-            }
-        }, 3000); // 3 seconds
-    </script>
 </body>
 </html>

@@ -31,7 +31,7 @@ public class SecurityConfiguration {
             )
             .logout(logout -> 
                 logout
-                    .logoutUrl("/logout")  // Custom logout URL
+                    .logoutUrl("/perform_logout")  // Custom logout URL
                     .logoutSuccessUrl("/login?logout")  // Go to login page after logout
                     .invalidateHttpSession(true)  // Invalidate the session
                     .clearAuthentication(true)  // Clear authentication information
@@ -40,7 +40,6 @@ public class SecurityConfiguration {
             );
         return http.build();
     }
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {

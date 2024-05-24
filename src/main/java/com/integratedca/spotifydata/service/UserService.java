@@ -25,8 +25,10 @@ public class UserService {
     // Update user password
     public void updatePassword(String username, String newPassword) {
         User user = userRepository.findByUsername(username);
-        user.setPassword(passwordEncoder.encode(newPassword));
-        userRepository.save(user);
+        if (user != null) {
+            user.setPassword(passwordEncoder.encode(newPassword));
+            userRepository.save(user);
+        }
     }
 
     // Delete user by username
