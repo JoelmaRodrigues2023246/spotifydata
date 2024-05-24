@@ -11,10 +11,6 @@ public class HomeController {
         return "home";
     }
 
-    @GetMapping("/view_artists_yearly_streams")
-    public String viewArtistYearlyStreams() {
-        return "artist_yearly_streams"; // Ensure the template exists
-    }
 
     @GetMapping("/view_top_songs_per_year")
     public String viewTopSongsPerYear() {

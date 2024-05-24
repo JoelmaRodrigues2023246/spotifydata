@@ -7,9 +7,11 @@
     <h1>Welcome to the Home Page!</h1>
     <p>You are logged in as <span th:text="${#authentication.name}">User</span>.</p>
     <ul>
-        <li><a th:href="@{/view_artists_yearly_streams}">View Artist Yearly Streams</a></li>
         <li><a th:href="@{/view_top_10_artists}">View Top 10 Artists Per Year</a></li>
         <li><a th:href="@{/view_top_songs_per_year}">View Top Songs Per Year</a></li>
+        
+				<!-- User Account page -->        
+                <li><a th:href="@{/user_account}">User Account</a></li>
     </ul>
 </body>
 </html>

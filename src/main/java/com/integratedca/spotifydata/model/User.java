@@ -3,9 +3,10 @@ package com.integratedca.spotifydata.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "users")
@@ -25,16 +26,20 @@ public class User {
     @NotEmpty(message = "Confirm Password is required")
     private String confirmPassword;
 
+    @Transient
+    private String oldPassword;
+
     private List<String> roles;
 
     public User() {
+        this.roles = new ArrayList<>();
     }
 
     public User(String id, String username, String password, List<String> roles) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.roles = roles;
+        this.roles = roles != null ? roles : new ArrayList<>();  // Roles is never null
     }
 
     // Getters e Setters
@@ -68,6 +73,14 @@ public class User {
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
+    }
+
+    public String getOldPassword() {
+        return oldPassword;
+    }
+
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
     }
 
     public List<String> getRoles() {

@@ -6,6 +6,9 @@
         .error-message {
             color: red;
         }
+        .success-message {
+            color: green;
+        }
     </style>
 </head>
 <body>
@@ -28,8 +31,10 @@
             <div th:if="${#fields.hasErrors('password') || #fields.hasErrors('confirmPassword')}" th:errors="*{password}"></div>
             <div th:if="${error}" th:text="${error}"></div>
         </div>
+        <div class="success-message" th:if="${success}" th:text="${success}"></div>
         <div>
             <button type="submit">Register</button>
+            <a th:href="@{/login}">Back to Login</a>
         </div>
     </form>
 </body>

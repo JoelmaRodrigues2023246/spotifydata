@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Account</title>
+    <style>
+        .error-message {
+            color: red;
+        }
+        .success-message {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h1>User Account</h1>
+    <p>Welcome, <span th:text="${user.username}"></span>!</p>
+    <form th:action="@{/user_account/update_password}" th:object="${user}" method="post">
+        <div>
+            <label for="oldPassword">Old Password:</label>
+            <input type="password" id="oldPassword" th:field="*{oldPassword}" />
+        </div>
+        <div>
+            <label for="password">New Password:</label>
+            <input type="password" id="password" th:field="*{password}" />
+        </div>
+        <div>
+            <label for="confirmPassword">Confirm New Password:</label>
+            <input type="password" id="confirmPassword" th:field="*{confirmPassword}" />
+        </div>
+        <div class="error-message" th:if="${error}" th:text="${error}"></div>
+        <div class="success-message" th:if="${success}" th:text="${success}"></div>
+        <div>
+            <button type="submit">Update Password</button>
+        </div>
+    </form>
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Logout</button>
+    </form>
+    <form th:action="@{/user_account/delete}" method="post">
+        <button type="submit">Delete Account</button>
+    </form>
+</body>
+</html>
