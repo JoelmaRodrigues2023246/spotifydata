@@ -3,41 +3,56 @@
 <head>
     <title>User Account</title>
     <style>
-        .error-message {
-            color: red;
-        }
         .success-message {
             color: green;
+        }
+        .error-message {
+            color: red;
         }
     </style>
 </head>
 <body>
     <h1>User Account</h1>
-    <p>Welcome, <span th:text="${user.username}"></span>!</p>
+    <p>Welcome, <span th:text="${username}">User</span>!</p>
     <form th:action="@{/user_account/update_password}" th:object="${user}" method="post">
         <div>
             <label for="oldPassword">Old Password:</label>
             <input type="password" id="oldPassword" th:field="*{oldPassword}" />
         </div>
         <div>
-            <label for="password">New Password:</label>
-            <input type="password" id="password" th:field="*{password}" />
+            <label for="newPassword">New Password:</label>
+            <input type="password" id="newPassword" th:field="*{password}" />
         </div>
         <div>
             <label for="confirmPassword">Confirm New Password:</label>
             <input type="password" id="confirmPassword" th:field="*{confirmPassword}" />
         </div>
-        <div class="error-message" th:if="${error}" th:text="${error}"></div>
-        <div class="success-message" th:if="${success}" th:text="${success}"></div>
         <div>
             <button type="submit">Update Password</button>
+        </div>
+        <div class="error-message" th:if="${error}">
+            <p th:text="${error}"></p>
+        </div>
+        <div class="success-message" th:if="${success}">
+            <p th:text="${success}"></p>
+        </div>
+    </form>
+    <form th:action="@{/user_account/delete}" method="post">
+        <div>
+            <button type="submit">Delete Account</button>
         </div>
     </form>
     <form th:action="@{/logout}" method="post">
         <button type="submit">Logout</button>
     </form>
-    <form th:action="@{/user_account/delete}" method="post">
-        <button type="submit">Delete Account</button>
-    </form>
+    <script>
+        // Temporary success message
+        setTimeout(function() {
+            var successMessage = document.querySelector('.success-message');
+            if (successMessage) {
+                successMessage.style.display = 'none';
+            }
+        }, 3000); // 3 seconds
+    </script>
 </body>
 </html>

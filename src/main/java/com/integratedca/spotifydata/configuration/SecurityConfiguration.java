@@ -13,10 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-    private final CustomUserDetailsService customUserDetailsService;
-
     public SecurityConfiguration(CustomUserDetailsService customUserDetailsService) {
-        this.customUserDetailsService = customUserDetailsService;
     }
 
     @Bean
@@ -24,39 +21,29 @@ public class SecurityConfiguration {
         http
             .authorizeHttpRequests(authorizeRequests -> 
                 authorizeRequests
-                    .requestMatchers("/login", "/register", "/css/**", "/js/**").permitAll()  // Allow access to login, register, and static resources
-                    .requestMatchers("/user_account").authenticated()  // Only authenticated users can access the user account page
+                    .requestMatchers("/login", "/register").permitAll()  // Allow access to login and register pages
                     .anyRequest().authenticated()  // All other requests require authentication
             )
             .formLogin(formLogin -> 
                 formLogin
                     .loginPage("/login").permitAll()  // Login page
                     .defaultSuccessUrl("/", true)  // Go to home page after successful login
-                    .failureUrl("/login?error=true")  // Redirect to login page with error message if login fails
             )
             .logout(logout -> 
                 logout
                     .logoutUrl("/logout")  // Custom logout URL
-                    .logoutSuccessUrl("/login?logout=true")  // Go to login page after logout
+                    .logoutSuccessUrl("/login?logout")  // Go to login page after logout
                     .invalidateHttpSession(true)  // Invalidate the session
                     .clearAuthentication(true)  // Clear authentication information
                     .deleteCookies("JSESSIONID")  // Delete session cookies
                     .permitAll()  // Allow all users to access logout
-            )
-            .csrf(csrf -> 
-                csrf.disable()  // Disable CSRF protection for simplicity
-            )
-            .sessionManagement(sessionManagement -> 
-                sessionManagement
-                    .maximumSessions(1)  // Limit the number of concurrent sessions per user
-                    .maxSessionsPreventsLogin(true)  // Prevent new login if maximum sessions is reached
             );
-
         return http.build();
     }
 
+
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();  // password encoding (BCryp)
+        return new BCryptPasswordEncoder();
     }
 }

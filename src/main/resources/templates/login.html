@@ -3,11 +3,11 @@
 <head>
     <title>Login</title>
     <style>
-        .error-message {
-            color: red;
-        }
         .success-message {
             color: green;
+        }
+        .error-message {
+            color: red;
         }
     </style>
 </head>
@@ -25,10 +25,30 @@
         <div>
             <button type="submit">Login</button>
         </div>
+        <div th:if="${param.error}" class="error-message">
+            Invalid username or password
+        </div>
+        <div th:if="${param.logout}" class="success-message">
+            You have been logged out successfully
+        </div>
+        <div th:if="${param.success}" class="success-message">
+            Account created successfully. You can log in now.
+        </div>
+        <div th:if="${param.accountDeleted}" class="success-message">
+            Your account has been deleted.
+        </div>
+        <div>
+            <a th:href="@{/register}">Create your account</a>
+        </div>
     </form>
-    <div class="error-message" th:if="${param.error}" th:text="'Invalid username or password'"></div>
-    <div class="success-message" th:if="${param.logout}" th:text="'You have been logged out successfully'"></div>
-    <div class="success-message" th:if="${param.success}" th:text="'Registration successful! Please login.'"></div>
-    <p>Don't have an account? <a th:href="@{/register}">Register here</a></p>
+    <script>
+        // Temporary success message
+        setTimeout(function() {
+            var successMessages = document.querySelectorAll('.success-message');
+            successMessages.forEach(function(successMessage) {
+                successMessage.style.display = 'none';
+            });
+        }, 3000); // 3 seconds
+    </script>
 </body>
 </html>
