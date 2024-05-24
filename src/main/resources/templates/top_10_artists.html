@@ -2,9 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Top 10 Artists</title>
+    <style>
+        .header-message {
+            color: green;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <h1>Top 10 Artists</h1>
+    <h1 class="header-message">Top 10 Artists in <span th:text="${defaultRegion}"></span> in <span th:text="${defaultYear}"></span></h1>
     <form th:action="@{/view_top_10_artists}" method="get">
         <label for="region">Region:</label>
         <input type="text" id="region" name="region" th:value="${defaultRegion}" required>
@@ -18,8 +25,6 @@
                 <th>Rank</th>
                 <th>Artist</th>
                 <th>Total Streams</th>
-                <th>Region</th>
-                <th>Year</th>
             </tr>
         </thead>
         <tbody>
@@ -27,8 +32,6 @@
                 <td th:text="${artist.rank}">1</td>
                 <td th:text="${artist.artist}">Artist Name</td>
                 <td th:text="${artist.total_streams}">0</td>
-                <td th:text="${artist.region}">Region</td>
-                <td th:text="${artist.year}">2021</td>
             </tr>
         </tbody>
     </table>
