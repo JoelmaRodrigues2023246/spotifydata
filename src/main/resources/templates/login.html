@@ -3,52 +3,153 @@
 <head>
     <title>Login</title>
     <style>
-        .success-message {
-            color: green;
+        body {
+            font-family: 'Helvetica', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow-x: hidden;
+            overflow-y: hidden;
+        }
+        .header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px 20px;
+            background-color: #1DB954;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 {
+            font-family: 'Cursive', sans-serif;
+            font-size: 1.5rem;
+            color: white;
+            margin: 0;
+        }
+        .header a {
+            color: white;
+            text-decoration: none;
+        }
+        .login-container {
+            text-align: center;
+            margin-top: 100px;
+        }
+        .login-box {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            margin: 0 auto;
+        }
+        .login-box h2 {
+            margin-bottom: 30px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #28a745;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .input-group input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 2px solid #5f8a69;
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+        }
+        .login-button {
+            width: 100%;
+            padding: 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .login-button:hover {
+            background-color: #10922c;
+        }
+        .register-link {
+            margin-top: 20px;
+        }
+        .register-link p {
+            font-size: 14px;
+            color: #000;
+        }
+        .register-link a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .register-link a:hover {
+            text-decoration: underline;
         }
         .error-message {
             color: red;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .success-message {
+            color: grey;
+            margin-top: 10px;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
-    <h1>Login</h1>
-    <form th:action="@{/login}" method="post">
-        <div>
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" />
+    <div class="header">
+        <a th:href="@{/login}">
+            <h1>Spotify Charts</h1>
+        </a>
+    </div>
+    <div class="login-container">
+        <div class="login-box">
+            <h2>Login</h2>
+            <form th:action="@{/login}" method="post">
+                <div class="input-group">
+                    <input type="text" id="username" name="username" placeholder="Username" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="password" name="password" placeholder="Password" required>
+                </div>
+                <div th:if="${param.error}" class="error-message">
+                    Invalid username or password
+                </div>
+                <div th:if="${param.logout}" class="success-message">
+                    You have been logged out successfully
+                </div>
+                <div th:if="${param.success}" class="success-message">
+                    Account created successfully. You can log in now.
+                </div>
+                <div th:if="${param.accountDeleted}" class="success-message">
+                    Your account has been deleted.
+                </div>
+                <button type="submit" class="login-button">Login</button>
+            </form>
+            <div class="register-link">
+                <p>Do not have an account? <a th:href="@{/register}">Create your Account</a></p>
+            </div>
         </div>
-        <div>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" />
-        </div>
-        <div>
-            <button type="submit">Login</button>
-        </div>
-        <div th:if="${param.error}" class="error-message">
-            Invalid username or password
-        </div>
-        <div th:if="${param.logout}" class="success-message">
-            You have been logged out successfully
-        </div>
-        <div th:if="${param.success}" class="success-message">
-            Account created successfully. You can log in now.
-        </div>
-        <div th:if="${param.accountDeleted}" class="success-message">
-            Your account has been deleted.
-        </div>
-        <div>
-            <a th:href="@{/register}">Create your account</a>
-        </div>
-    </form>
+    </div>
     <script>
-        // Temporary success message
-        setTimeout(function() {
+        document.addEventListener("DOMContentLoaded", function() {
             var successMessages = document.querySelectorAll('.success-message');
-            successMessages.forEach(function(successMessage) {
-                successMessage.style.display = 'none';
-            });
-        }, 3000); // 3 seconds
+            if (successMessages.length > 0) {
+                setTimeout(function() {
+                    successMessages.forEach(function(message) {
+                        message.style.display = 'none';
+                    });
+                }, 3000); // 3000ms = 3s
+            }
+        });
     </script>
+    
 </body>
 </html>

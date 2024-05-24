@@ -15,15 +15,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 @Controller
 public class UserController {
 
     private final UserService userService;
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-
     public UserController(UserService userService) {
         this.userService = userService;
     }
@@ -119,7 +116,7 @@ public class UserController {
 
         // Update password
         userService.updatePassword(currentUsername, user.getPassword());
-        model.addAttribute("success", "Password updated successfully");
+        model.addAttribute("success", "Password updated successfully!");
         return "user_account";
     }
 

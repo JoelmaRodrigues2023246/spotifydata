@@ -10,10 +10,4 @@ public class HomeController {
     public String home() {
         return "home";
     }
-
-
-    @GetMapping("/view_top_songs_per_year")
-    public String viewTopSongsPerYear() {
-        return "top_songs_per_year"; // Ensure the template exists
-    }
 }

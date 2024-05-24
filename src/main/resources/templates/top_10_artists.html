@@ -3,37 +3,157 @@
 <head>
     <title>Top 10 Artists</title>
     <style>
+        body {
+            font-family: Helvetica, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+     
+        .navbar {
+            width: 100%;
+            background-color: #1DB954;
+            padding: 1em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            box-sizing: border-box;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar h1 {
+            margin: 0;
+            font-size: 1em;
+            margin-left: 1em;
+        }
+        .navbar h2 {
+            margin: 0;
+            font-size: 1.5em;
+            text-align: center;
+            flex-grow: 1;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.5em;
+            margin-right: 1em;
+        }
+        .navbar .fa-user {
+            font-size: 1em;
+        }
+        .fixed-header {
+            width: 100%;
+            background-color: #f7f7f7;
+            padding: 1em 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: fixed;
+            top: 3.5em; 
+            z-index: 999;
+        }
         .header-message {
-            color: green;
+            color: #1DB954;
             font-weight: bold;
             text-align: center;
+            font-size: 1.5em;
+        }
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1em;
+            margin-top: 1em;
+        }
+        .filter-container label {
+            font-weight: bold;
+        }
+        .filter-container select, .filter-container input {
+            padding: 0.5em;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .filter-container button {
+            background-color: #1DB954;
+            color: white;
+            padding: 0.5em 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .filter-container button:hover {
+            background-color: #1aa34a;
+        }
+        .table-container {
+            margin-top: 10em; 
+            width: 80%;
+            overflow-y: auto;
+
+        }
+        .table-container table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1em;
+        }
+        .table-container th, .table-container td {
+            padding: 1em;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .table-container th {
+            background-color: #1DB954;
+            color: white;
+        }
+        .table-container tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .table-container tr:hover {
+            background-color: #ddd;
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <h1 class="header-message">Top 10 Artists in <span th:text="${defaultRegion}"></span> in <span th:text="${defaultYear}"></span></h1>
-    <form th:action="@{/view_top_10_artists}" method="get">
-        <label for="region">Region:</label>
-        <input type="text" id="region" name="region" th:value="${defaultRegion}" required>
-        <label for="year">Year:</label>
-        <input type="number" id="year" name="year" th:value="${defaultYear}" required>
-        <button type="submit">Search</button>
-    </form>
-    <table>
-        <thead>
-            <tr>
-                <th>Rank</th>
-                <th>Artist</th>
-                <th>Total Streams</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="artist : ${top10Artists}">
-                <td th:text="${artist.rank}">1</td>
-                <td th:text="${artist.artist}">Artist Name</td>
-                <td th:text="${artist.total_streams}">0</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="navbar">
+        <h1><a th:href="@{/}">Spotify Charts</a></h1>
+        <h2>Top 10 Artists</h2>
+        <a th:href="@{/user_account}"><i class="fas fa-user"></i></a>
+    </div>
+    <div class="fixed-header">
+        <div class="header-message">
+            Top 10 Artists in <span th:text="${defaultRegion}"></span> in <span th:text="${defaultYear}"></span>
+        </div>
+        <form th:action="@{/view_top_10_artists}" method="get" class="filter-container">
+            <label for="region">Region:</label>
+            <input type="text" id="region" name="region" th:value="${defaultRegion}" required>
+            <label for="year">Year:</label>
+            <input type="number" id="year" name="year" th:value="${defaultYear}" required>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Artist</th>
+                    <th>Total Streams</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="artist : ${top10Artists}">
+                    <td th:text="${artist.rank}">1</td>
+                    <td th:text="${artist.artist}">Artist Name</td>
+                    <td th:text="${artist.total_streams}">0</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
