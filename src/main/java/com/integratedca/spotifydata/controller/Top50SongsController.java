@@ -1,7 +1,7 @@
 package com.integratedca.spotifydata.controller;
 
-import com.integratedca.spotifydata.model.TopSongsPerYear;
-import com.integratedca.spotifydata.repository.TopSongsPerYearRepository;
+import com.integratedca.spotifydata.model.Top50Songs;
+import com.integratedca.spotifydata.repository.Top50SongsRepository;
 
 import java.util.List;
 
@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/top_songs_per_year")
-public class TopSongsPerYearController {
+public class Top50SongsController {
 
     @Autowired
-    private TopSongsPerYearRepository repository;
+    private Top50SongsRepository repository;
 
     @GetMapping
-    public List<TopSongsPerYear> getAll() {
+    public List<Top50Songs> getAll() {
         return repository.findAll();
     }
 }
